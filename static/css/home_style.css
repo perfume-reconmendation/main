@@ -1,0 +1,17 @@
+.body {
+  width: 100vw;
+  height: 100vh;
+  /* background-color: black; */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.home-bg-img {
+  width: 100vw;
+  height: 60vh;
+  display: block;
+  /* background-image: url("../src/assets/home.png"); */
+  background-position: center center;
+  background-repeat: no-repeat;
+  background-size: cover;
+}
