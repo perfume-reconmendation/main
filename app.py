@@ -1,5 +1,11 @@
 from flask import Flask, render_template, request
-from utils.WordRank_Keywords import WordRank_Keywords
+
+from utils.Classifier import classifier
+
+from utils.bert_sim import BERT_recommendations
+from utils.d2v_sim import doc2vec
+from utils.w2v_sim import word2vec_similarity
+
 import json
 app = Flask(__name__)
 
@@ -19,7 +25,12 @@ def form():
 def result():
     query = request.form.get('data')
     print("query:", query)
-    # return WordRank_Keywords(query, 0, "text", ['a'])
+
+    label = classifier(query)
+
+    BERT_recommendations(query)
+    word2vec_similarity(query, label)
+    doc2vec
     return render_template('index.html', context=query)
 
 
