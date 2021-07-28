@@ -1,4 +1,5 @@
 from flask import Flask, render_template, request
+from utils.WordRank_Keywords import WordRank_Keywords
 import json
 app = Flask(__name__)
 
@@ -16,14 +17,10 @@ def form():
 
 @app.route('/result', methods=['POST'])
 def result():
-    print("요청: ", request.form.get('data'))
-    # params = json.loads(request.json, encoding='utf-8')
-    # print(params)
-    # str = ""
-    # for key in params.keys():
-    # str += f'key: {key}, value: {params[key]}'
-
-    return request.form.get('data')
+    query = request.form.get('data')
+    print("query:", query)
+    # return WordRank_Keywords(query, 0, "text", ['a'])
+    return render_template('index.html', context=query)
 
 
 if __name__ == '__main__':
