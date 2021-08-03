@@ -41,3 +41,6 @@ conda activate fragrantica-reconmmendation
 <https://www.notion.so/sejongai/recommend-cc741512dd1f43fd980c88b530c47344>
 
 위의 링크에서 w2v 관련 모델 및 dataset 다운로드 및 배치
+
+아래 그림을 참고해서 dataset 과 모델을 위치시킨다.
+![img.png](doc_assets/img_01.png)
