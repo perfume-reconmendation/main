@@ -21,7 +21,7 @@ conda activate fragrantica-reconmmendation
 이후 개발중에 requirements 를 추가하게 되면 아래의 command 를 통해 `environment.yml` 에 반영하도록 한다.
 
 ```shell
- conda env export > environment.yml
+conda env export > environment.yml
 ```
 
 ### Dataset 및 모델 다운로드
