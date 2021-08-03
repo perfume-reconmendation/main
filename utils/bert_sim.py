@@ -84,7 +84,7 @@ def BERT_recommendations(query):
             recommend_perfume.append(row['name'])
             result = {
                 'name': row['name'],
-                'similarity': sim_scores[index][1],
+                'similarity': sim_scores[index][1][0][0],
                 'review': row['review'],
                 'accords': row['accords']
             }
