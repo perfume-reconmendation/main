@@ -1,5 +1,5 @@
 import json
-import processor
+from utils.preprocessor import preprocessing
 import pandas as pd
 import numpy as np
 from sklearn.metrics.pairwise import cosine_similarity
@@ -14,7 +14,6 @@ from collections import OrderedDict
 import spacy
 from spacy.lang.en.stop_words import STOP_WORDS
 
-
 def sentence_preprocessing(df_path, tokenized_doc_path, user_sentence, label):
     # 데이터프레임 불러오기
     df = pd.read_csv(df_path)
@@ -28,8 +27,8 @@ def sentence_preprocessing(df_path, tokenized_doc_path, user_sentence, label):
     same_label_result = [result[i] for i in indexes]
 
     # 사용자 입력 문장 전처리
-    _stopwords = set(json.load(open('../dataset/stopwords.json', 'r')))
-    tokenized_doc = processor.preprocessing(user_sentence, _stopwords)
+    _stopwords = set(json.load(open('dataset/stopwords.json', 'r')))
+    tokenized_doc = preprocessing(user_sentence, _stopwords)
 
     # 토큰화된 데이터에 사용자 문장 추가
     final_result = copy.deepcopy(same_label_result)
@@ -121,8 +120,8 @@ def recommendations(df_path, document_embedding_list, label):
 
 
 def word2vec_similarity(user_sentence, label):
-    df_path = '../dataset/dataset_210626_215600.csv'
-    tokenized_doc_path = '../dataset/tokenized_doc.pickle'
+    df_path = 'dataset/dataset_210626_215600.csv'
+    tokenized_doc_path = 'dataset/tokenized_doc.pickle'
     model_path = './model/w2v_10window'
 
     final_result = sentence_preprocessing(

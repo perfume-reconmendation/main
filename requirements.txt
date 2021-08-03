@@ -1,9 +1,0 @@
-transformers
-nltk
-pandas
-spellchecker
-matplotlib
-sklearn
-spacy
-gensim
-python-Levenshtein
