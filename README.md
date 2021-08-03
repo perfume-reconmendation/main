@@ -7,7 +7,7 @@
 
 ## 초기 설정 방법
 
-### 의존성 설
+### 의존성 설치
 
 [링크참고](https://conda.io/projects/conda/en/latest/user-guide/tasks/manage-environments.html#creating-an-environment-from-an-environment-yml-file)
 

@@ -1,3 +1,4 @@
+import nltk
 from nltk.tokenize import TreebankWordTokenizer
 from nltk.corpus import stopwords
 from nltk import pos_tag
@@ -8,6 +9,8 @@ import pandas as pd
 import json
 from datetime import datetime
 
+nltk.download('averaged_perceptron_tagger')
+nltk.download('wordnet')
 
 def convert_to_str(doc):
     return doc if type(doc) == str else ''
