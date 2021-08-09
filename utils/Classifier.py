@@ -18,6 +18,7 @@ def load_model(model_path, tokenizer_path):
     tokenizer = BertTokenizer.from_pretrained(tokenizer_path)
     return model, tokenizer
 
+m_model, m_tokenizer = load_model('./src/model', './src/tokenizer')
 
 def test(text, model, tokenizer):
     model.to(device)
@@ -65,6 +66,5 @@ def classifier(text):
     '''
     return (0, 1, 2, 3)
     '''
-    m_model, m_tokenizer = load_model('./src/model', './src/tokenizer')
     return test(text, m_model, m_tokenizer)
-    # test("it's like having a strong spice in your mouth.", m_model, m_tokenizer,)
+    # test("it's like having a strong spice in your mouth.", m_model, m_tokenizer)
