@@ -22,37 +22,17 @@ from sentence_transformers import SentenceTransformer
 # !pip install sentence_transformers
 
 
-# 리뷰 데이터
-df = pd.read_csv("data/dataset_210626_215600.csv")
-df.drop('Unnamed: 0', axis=1, inplace=True)
+def BERT_recommendations(query, label):
+    # 쿼리
+    model = SentenceTransformer('sentence-transformers/distiluse-base-multilingual-cased-v1')
+    vectors = model.encode(query)
 
-# bert 임베딩 벡터
-bert_vec = np.load('bert_vec.npy', allow_pickle=True)
+    # 향수 리뷰 정보 데이터
+    df = pd.read_csv('data/compact_label' + str(label) + '.csv', usecols=['name', 'accords', 'review', 'Unnamed: 0'])
+    # bert 임베딩 벡터
+    bert_vec = np.load('bert_vec/bert_vec_label' + str(label) + '.npy', allow_pickle=True)
 
-# 쿼리
-model = SentenceTransformer(
-    'sentence-transformers/distiluse-base-multilingual-cased-v1')
-
-
-def BERT_recommendations(query):
-    '''
-
-[{'name': 'Bentley for Men Intense Bentley for men',
-  'similarity': array([[0.38496298]], dtype=float32),
-  'review': 'Intriguing and sexy but not a massive performer imo. If it was i would wear this a lot more often..',
-  'accords': "['woody', 'warm spicy', 'amber', 'rum', 'smoky', 'fresh spicy', 'leather', 'balsamic', 'aromatic', 'cinnamon']"},
- {'name': 'Sauvage Christian Dior for men',
-  'similarity': array([[0.36974102]], dtype=float32),
-  'review': 'aggressive, provocative, maskulen. a man scent sexy enough to pull the panty down on its own.',
-  'accords': "['fresh spicy', 'amber', 'citrus', 'aromatic', 'musky', 'woody', 'herbal', 'warm spicy']"},
- {'name': 'Tuscan Leather Tom Ford for women and men',
-  'similarity': array([[0.3611946]], dtype=float32),
-  'review': "This perfume makes me feel like I'm being seduced by an Italian man wearing tight acid washed jeans and a tan suede jacket, donning a mustache, and chain smoking cigarettes while waiting at a sweaty subway stop. \r\nIt's sexy, a little dirty, and not for everyone.",
-  'accords': "['leather', 'fruity', 'animalic', 'sweet', 'amber', 'smoky']"}]
-    '''
-    vectors = model.encode(query.lower())
-
-    # 쿼리와 데이터 유사도
+    #  같은 라벨 내에서 쿼리와 데이터 유사도
     similarity = []
     for i in range(len(bert_vec)):
         sim1 = cosine_similarity([vectors], [bert_vec[i]])
@@ -84,7 +64,7 @@ def BERT_recommendations(query):
             recommend_perfume.append(row['name'])
             result = {
                 'name': row['name'],
-                'similarity': sim_scores[index][1][0][0],
+                'similarity': round(float(sim_scores[index][1][0][0]), 4),
                 'review': row['review'],
                 'accords': row['accords']
             }
@@ -92,7 +72,6 @@ def BERT_recommendations(query):
             result_list.append(result)
 
     return result_list
-
 
 # query = 'I am sitting on the beach with a cool breeze I am surrounded by coconut palm water and I sip a refreshing grapefruit sparkling drink'
 

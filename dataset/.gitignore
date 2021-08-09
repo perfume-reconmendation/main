@@ -1,2 +1,3 @@
 dataset_210626_215600.csv
 tokenized_doc.pickle
+docvec_*.pickle

@@ -43,14 +43,14 @@ def infer_class():
 def infer_similar_bert():
     query = request.get_json()['query']
     label = request.get_json()['label']
-    result = BERT_recommendations(query)
+    result = BERT_recommendations(query, label)
     return json.dumps(result)
 
 @app.route('/infer/similar/doc2vec', methods=['POST'])
 def infer_similar_doc2vec():
     query = request.get_json()['query']
     label = request.get_json()['label']
-    result = doc2vec(query)
+    result = doc2vec(query, label)
     return json.dumps(result)
 
 @app.route('/infer/similar/word2vec', methods=['POST'])
@@ -58,6 +58,7 @@ def infer_similar_word2vec():
     query = request.get_json()['query']
     label = request.get_json()['label']
     result = word2vec_similarity(query, label)
+    print(result)
     return json.dumps(result)
 
 

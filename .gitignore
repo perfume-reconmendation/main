@@ -10,3 +10,10 @@ src/tokenizer
 
 # bert vec
 bert_vec.npy
+
+# temp
+temp
+
+bert_vec
+doc_vec
+doc2vec_model

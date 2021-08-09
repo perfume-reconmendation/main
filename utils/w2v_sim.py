@@ -1,5 +1,5 @@
 import json
-from utils.preprocessor import preprocessing
+import utils.preprocessor as processor
 import pandas as pd
 import numpy as np
 from sklearn.metrics.pairwise import cosine_similarity
@@ -15,28 +15,11 @@ import spacy
 from spacy.lang.en.stop_words import STOP_WORDS
 
 
-
-def sentence_preprocessing(df_path, tokenized_doc_path, user_sentence, label):
-    # 데이터프레임 불러오기
-    df = pd.read_csv(df_path)
-    indexes = df[df['label'] == label].index
-
-    # 토큰화된 전체 리뷰 불러오기
-    with open(tokenized_doc_path, 'rb') as f:
-        result = pickle.load(f)
-
-    # 분류된 라벨에 해당하는 리뷰만 추출
-    same_label_result = [result[i] for i in indexes]
-
+def sentence_preprocessing(user_sentence):
     # 사용자 입력 문장 전처리
     _stopwords = set(json.load(open('dataset/stopwords.json', 'r')))
-    tokenized_doc = preprocessing(user_sentence, _stopwords)
-
-    # 토큰화된 데이터에 사용자 문장 추가
-    final_result = copy.deepcopy(same_label_result)
-    final_result.append(tokenized_doc)
-
-    return final_result
+    tokenized_doc = processor.preprocessing(user_sentence, _stopwords)
+    return tokenized_doc
 
 
 '''문서 벡터화'''
@@ -49,27 +32,25 @@ def vectors(model_path, document_list):
 
     document_embedding_list = []
 
-    # 각 문서에 대해서
-    for line in document_list:
-        doc2vec = None
-        count = 0
-        for word in line:
-            if word in word2vec_model.index_to_key:
-                count += 1
-                # 해당 문서에 있는 모든 단어들의 벡터값을 더한다.
-                if doc2vec is None:
-                    doc2vec = word2vec_model[word]
-                else:
-                    doc2vec = doc2vec + word2vec_model[word]
+    doc2vec = None
+    count = 0
+    for word in document_embedding_list:
+        if word in word2vec_model.index_to_key:
+            count += 1
+            # 해당 문서에 있는 모든 단어들의 벡터값을 더한다.
+            if doc2vec is None:
+                doc2vec = word2vec_model[word]
+            else:
+                doc2vec = doc2vec + word2vec_model[word]
 
-        if doc2vec is None:
-            doc2vec = np.empty(100,)
-            doc2vec[:] = 0
-            document_embedding_list.append(doc2vec)
-        else:
-            # 단어 벡터를 모두 더한 벡터의 값을 문서 길이로 나눠준다.
-            doc2vec = doc2vec / count
-            document_embedding_list.append(doc2vec)
+    if doc2vec is None:
+        doc2vec = np.empty(100, )
+        doc2vec[:] = 0
+        document_embedding_list.append(doc2vec)
+    else:
+        # 단어 벡터를 모두 더한 벡터의 값을 문서 길이로 나눠준다.
+        doc2vec = doc2vec / count
+        document_embedding_list.append(doc2vec)
 
     # 각 문서에 대한 문서 벡터 리스트를 리턴
     return document_embedding_list
@@ -79,13 +60,17 @@ def vectors(model_path, document_list):
 
 
 def recommendations(df_path, document_embedding_list, label):
-
     df = pd.read_csv(df_path)
     same_label_df = df[df['label'] == label]
 
+    # 같은 라벨의 문서들의 벡터를 불러와서 사용자 문서 벡터를 append
+    dir = 'dataset/docvec_'
+    path = dir + str(label) + '.pickle'
+    with open(path, 'rb') as f:
+        same_laber_vec = pickle.load(f)
+
     # 다른 문서들과의 유사도 측정
-    similarity = cosine_similarity(
-        [document_embedding_list[-1]], document_embedding_list[0:-1])
+    similarity = cosine_similarity([same_laber_vec[-1]], same_laber_vec[0:-1])
 
     # 전체 cosine유사도 행렬에서 사용자 입력 문장과 가장 유사한 순으로 리뷰 정렬
     sim_scores = list(enumerate(similarity.reshape(-1, 1)))
@@ -109,8 +94,9 @@ def recommendations(df_path, document_embedding_list, label):
             continue
         else:
             recommend_perfume.append(row['name'])
-            top3_df = top3_df.append({'name': row['name'], 'accords': row['accords'],
-                                      'similarity': sim_scores[index][1], 'review': row['review']}, ignore_index=True)
+            top3_df = top3_df.append(
+                {'name': row['name'], 'accords': row['accords'], 'similarity': float(round(sim_scores[index][1][0], 4)),
+                 'review': row['review']}, ignore_index=True)
         # print('Top {}'.format(len(recommend_perfume)))
         # print('향수 명: ' ,row['name'])
         # print('유사도: ',sim_scores[index][1])
@@ -126,8 +112,7 @@ def word2vec_similarity(user_sentence, label):
     tokenized_doc_path = 'dataset/tokenized_doc.pickle'
     model_path = 'model/w2v_10window'
 
-    final_result = sentence_preprocessing(
-        df_path, tokenized_doc_path, user_sentence, label)
+    final_result = sentence_preprocessing(user_sentence)
     document_embedding_list = vectors(model_path, final_result)
     top3_df = recommendations(df_path, document_embedding_list, label)
 
