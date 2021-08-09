@@ -15,7 +15,7 @@ environments.yml 을 이용해 해당 conda 환경에 requirements 를 설치한
 
 ```shell
 conda env create -f environment.yml
-conda activate fragrantica-reconmmendation
+conda activate perfume_recommendation
 ```
 
 이후 개발중에 requirements 를 추가하게 되면 아래의 command 를 통해 `environment.yml` 에 반영하도록 한다.
