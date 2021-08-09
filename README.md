@@ -44,3 +44,15 @@ conda env export > environment.yml
 
 아래 그림을 참고해서 dataset 과 모델을 위치시킨다.
 ![img.png](doc_assets/img_01.png)
+
+### 2021-08-09 추가 사항
+<https://www.notion.so/doc2vec-model-df02fdf44d3643de9e3ff09aedf98666>
+
+위의 링크에서 모든 파일을 다운받아 `/doc2vec_model` 에 배치한다.
+
+<https://www.notion.so/sejongai/doc2vec-BERT-rec-555a7f742f35412cba635e8a1c12bd50>
+
+위의 링크에서 
+1. BERT에서 'ber_vec_label0.npy' 'ber_vec_label1.npy', 'ber_vec_label2.npy', 'ber_vec_label3.npy' 을 다운받아 `/bert_vec` 에 배치한다.
+2. D2V에서  'doc_vec_label0.npy', 'doc_vec_label1.npy', 'doc_vec_label2.npy', 'doc_vec_label3.npy' 을 다운받아 `/doc_vec` 에 배치한다.
+3. 공통 사용에서 'compact_label0.csv', 'compact_label1.csv', 'compact_label2.csv', 'compact_label3.csv' 을 다운받아 `/data` 에 배치한다.
