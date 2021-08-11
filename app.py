@@ -1,4 +1,5 @@
 from flask import Flask, render_template, request
+from flask_cors import CORS
 
 from utils.Classifier import classifier
 
@@ -8,11 +9,12 @@ from utils.w2v_sim import word2vec_similarity
 
 import json
 app = Flask(__name__)
+CORS(app)
 
 
 @app.route('/')
 def index():
-    # return 'Hello World'
+    # return 'Hello World'5
     return render_template('public/home.html')
 
 
@@ -60,6 +62,7 @@ def infer_similar_word2vec():
     result = word2vec_similarity(query, label)
     print(result)
     return json.dumps(result)
+
 
 
 if __name__ == '__main__':

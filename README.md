@@ -56,3 +56,11 @@ conda env export > environment.yml
 1. BERT에서 'ber_vec_label0.npy' 'ber_vec_label1.npy', 'ber_vec_label2.npy', 'ber_vec_label3.npy' 을 다운받아 `/bert_vec` 에 배치한다.
 2. D2V에서  'doc_vec_label0.npy', 'doc_vec_label1.npy', 'doc_vec_label2.npy', 'doc_vec_label3.npy' 을 다운받아 `/doc_vec` 에 배치한다.
 3. 공통 사용에서 'compact_label0.csv', 'compact_label1.csv', 'compact_label2.csv', 'compact_label3.csv' 을 다운받아 `/data` 에 배치한다.
+
+## Docker
+
+<http://www.science.smith.edu/dftwiki/index.php/Tutorial:_Docker_Anaconda_Python_--_4>
+<https://hub.docker.com/r/continuumio/anaconda3/dockerfile>
+<https://pythonspeed.com/articles/activate-conda-dockerfile>
+
+도커 아나콘다 이미지 만들기 가이드.
