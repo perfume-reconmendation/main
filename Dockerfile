@@ -28,5 +28,5 @@ RUN python -c "import flask"
 
 # Run the web service on container startup.
 RUN echo "conda init bash && conda activate perfume_recommendation"  > ~/.bashrc
-EXPOSE 5000/tcp
+EXPOSE 8080/tcp
 ENTRYPOINT python app.py

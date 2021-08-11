@@ -6,6 +6,9 @@ from utils.Classifier import classifier
 from utils.bert_sim import BERT_recommendations
 from utils.d2v_sim import doc2vec
 from utils.w2v_sim import word2vec_similarity
+# from utils.WordRank_Keywords import keyword_highlighter
+
+import os
 
 import json
 app = Flask(__name__)
@@ -63,7 +66,15 @@ def infer_similar_word2vec():
     print(result)
     return json.dumps(result)
 
+# @app.route('/infer/highlight', method=['POST'])
+# def infer_keyword():
+#     query = request.get_json()['query']
+#     label = request.get_json()['label']
+#     keyword_highlighter()
 
+port = os.environ.get('PORT')
+if not port:
+    port = 8080
 
 if __name__ == '__main__':
-    app.run(host='0.0.0.0', port=5000)
+    app.run(host='0.0.0.0', port=port)
