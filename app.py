@@ -9,8 +9,9 @@ from utils.word2vec_similarity import word2vec_similarity
 from utils.highlighter import keyword_highlighter
 
 import os
-
 import json
+import nltk
+
 app = Flask(__name__)
 CORS(app)
 
@@ -53,6 +54,10 @@ def infer_similar_bert():
 
 @app.route('/infer/similar/doc2vec', methods=['POST'])
 def infer_similar_doc2vec():
+    nltk.download('averaged_perceptron_tagger')
+    nltk.download('stopwords')
+    nltk.download('wordnet')
+
     query = request.get_json()['query']
     label = request.get_json()['label']
     result = doc2vec(query, label)
@@ -60,6 +65,10 @@ def infer_similar_doc2vec():
 
 @app.route('/infer/similar/word2vec', methods=['POST'])
 def infer_similar_word2vec():
+    nltk.download('wordnet')
+    nltk.download('stopwords')
+    nltk.download('stopwords')
+
     query = request.get_json()['query']
     label = request.get_json()['label']
     result = word2vec_similarity(query, label)
