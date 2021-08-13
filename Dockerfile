@@ -25,8 +25,11 @@ SHELL ["/bin/bash", "--login", "-c" ]
 RUN echo "conda activate perfume_recommendation" > ~/.bashrc
 RUN echo "Make sure flask is installed"
 RUN python -c "import flask"
+RUN python -m spacy download en_core_web_sm
+RUN python preset.py
 
 # Run the web service on container startup.
 RUN echo "conda init bash && conda activate perfume_recommendation"  > ~/.bashrc
+
 EXPOSE 8080/tcp
-ENTRYPOINT python app.py
+CMD conda activate perfume_recommendation && python app.py

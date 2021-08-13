@@ -4,6 +4,7 @@
 
 - python 3.7
 - conda 4.10.1
+- MacOS 11.4
 
 ## 초기 설정 방법
 
@@ -57,6 +58,12 @@ conda env export > environment.yml
 2. D2V에서  'doc_vec_label0.npy', 'doc_vec_label1.npy', 'doc_vec_label2.npy', 'doc_vec_label3.npy' 을 다운받아 `/doc_vec` 에 배치한다.
 3. 공통 사용에서 'compact_label0.csv', 'compact_label1.csv', 'compact_label2.csv', 'compact_label3.csv' 을 다운받아 `/data` 에 배치한다.
 
+### nltk model 및 dataset 다운로드
+아래 커맨드를 clone 한 뒤 최초 1회 실행한다.
+```shell
+python preset.py
+```
+
 ## Docker
 
 <http://www.science.smith.edu/dftwiki/index.php/Tutorial:_Docker_Anaconda_Python_--_4>
@@ -64,3 +71,13 @@ conda env export > environment.yml
 <https://pythonspeed.com/articles/activate-conda-dockerfile>
 
 도커 아나콘다 이미지 만들기 가이드.
+
+### BUILD
+```shell
+docker build . -t asia.gcr.io/sai-perfume-recommendation/inferer
+```
+
+### DEPLOY
+```shell
+docker push asia.gcr.io/sai-perfume-recommendation/inferer
+```

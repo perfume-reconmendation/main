@@ -31,7 +31,6 @@ def sentence_preprocessing(query):
     # 전체 단어에 대한 소문자 변환
     user_sentence = user_sentence.lower()
     tokenized_doc = user_sentence.split()  # 토큰화
-    nltk.download('wordnet')
     n = WordNetLemmatizer()
     tokenized_doc = [n.lemmatize(item) for item in tokenized_doc]  # 표제어 추출
 

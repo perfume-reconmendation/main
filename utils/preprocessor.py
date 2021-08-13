@@ -9,9 +9,6 @@ import pandas as pd
 import json
 from datetime import datetime
 
-nltk.download('averaged_perceptron_tagger')
-nltk.download('wordnet')
-
 def convert_to_str(doc):
     return doc if type(doc) == str else ''
 
@@ -84,21 +81,3 @@ def preprocessing(doc, stopwords=_stopwords):
     words = [w for w in words if len(w) > 2]
     return words
 
-
-if __name__ == '__main__':
-    cores = 14
-    df = pd.read_csv('../dataset/top_90_by_gender.csv')
-
-    batch_n = int(len(df['review']) / cores)
-    batch_size = int(len(df['review']) / cores)
-    print(batch_size * cores)
-
-    batches = [df[i*batch_size: (i+1)*batch_size + cores] for i in range(0, cores)]
-
-    with Pool(cores) as p:
-        batches_return = p.map(preprocess_df, batches)
-
-    result = pd.concat(batches_return)
-
-    time_str = datetime.now().strftime("%y%m%d_%H%M%S")
-    result.to_csv(f'../output/preprocessed_{time_str}.csv')
