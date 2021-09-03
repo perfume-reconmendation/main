@@ -2,10 +2,11 @@
 
 <<https://sai-perfume-recommendation.web.app/>>
 
-☝☝☝ 여기서 서비스 바로 체험학기
+☝☝☝ 여기서 서비스 바로 체험하기
+
 ❗❗❗ 지원언어 영어 (This service only supports **ENGLISH** !!!! NOT KOREAN)
 
-## 개발 환경
+## 개발 환경Cancel changes
 
 - python 3.7
 - conda 4.10.1
